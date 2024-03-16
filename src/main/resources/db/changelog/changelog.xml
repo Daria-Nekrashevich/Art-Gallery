@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="1" author="Daria">
+        <createTable tableName="artists">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="biography" type="text"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="Daria">
+        <createTable tableName="boards">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="description" type="text"/>
+            <column name="user_id" type="uuid"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="boards"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_board_user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="3" author="Daria">
+        <createTable tableName="favorites">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="uuid"/>
+            <column name="painting_id" type="uuid"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="favorites"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_favorite_user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+        <addForeignKeyConstraint baseTableName="favorites"
+                                 baseColumnNames="painting_id"
+                                 constraintName="fk_favorite_painting_id"
+                                 referencedTableName="paintings"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="4" author="Daria">
+        <createTable tableName="paintings">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="description" type="text"/>
+            <column name="image_url" type="text"/>
+            <column name="creation_year" type="integer"/>
+            <column name="artist_id" type="uuid"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="paintings"
+                                 baseColumnNames="artist_id"
+                                 constraintName="fk_painting_artist_id"
+                                 referencedTableName="artists"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="5" author="Daria">
+        <createTable tableName="paintings_on_boards">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="board_id" type="uuid"/>
+            <column name="painting_id" type="uuid"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="paintings_on_boards"
+                                 baseColumnNames="board_id"
+                                 constraintName="fk_paintings_on_boards_board_id"
+                                 referencedTableName="boards"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+        <addForeignKeyConstraint baseTableName="paintings_on_boards"
+                                 baseColumnNames="painting_id"
+                                 constraintName="fk_paintings_on_boards_painting_id"
+                                 referencedTableName="paintings"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="6" author="Daria">
+        <createTable tableName="users">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="varchar(50)"/>
+            <column name="password" type="varchar(255)"/>
+            <column name="email" type="varchar(100)">
+                <constraints unique="true"/>
+            </column>
+            <column name="full_name" type="varchar(100)"/>
+            <column name="role" type="varchar(20)"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
