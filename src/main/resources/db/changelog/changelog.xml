@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
-    <changeSet id="1" author="Daria">
+    <changeSet id="1" author="daria">
         <createTable tableName="artists">
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false"/>
@@ -15,47 +15,18 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="2" author="Daria">
-        <createTable tableName="boards">
-            <column name="id" type="uuid">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="name" type="varchar(255)"/>
-            <column name="description" type="text"/>
-            <column name="user_id" type="uuid"/>
-        </createTable>
-        <addForeignKeyConstraint baseTableName="boards"
-                                 baseColumnNames="user_id"
-                                 constraintName="fk_board_user_id"
-                                 referencedTableName="users"
-                                 referencedColumnNames="id"
-                                 onDelete="CASCADE"/>
+    <changeSet id="2" author="daria">
+        <addPrimaryKey columnNames="id" constraintName="artists_pkey" tableName="artists"/>
     </changeSet>
 
-    <changeSet id="3" author="Daria">
-        <createTable tableName="favorites">
-            <column name="id" type="uuid">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="user_id" type="uuid"/>
-            <column name="painting_id" type="uuid"/>
-        </createTable>
-        <addForeignKeyConstraint baseTableName="favorites"
-                                 baseColumnNames="user_id"
-                                 constraintName="fk_favorite_user_id"
-                                 referencedTableName="users"
-                                 referencedColumnNames="id"
-                                 onDelete="CASCADE"/>
-        <addForeignKeyConstraint baseTableName="favorites"
-                                 baseColumnNames="painting_id"
-                                 constraintName="fk_favorite_painting_id"
-                                 referencedTableName="paintings"
-                                 referencedColumnNames="id"
-                                 onDelete="CASCADE"/>
+    <changeSet id="3" author="daria">
+        <modifySql dbms="postgresql">
+            <append value="ALTER TABLE artists OWNER TO daria;"/>
+        </modifySql>
     </changeSet>
 
-    <changeSet id="4" author="Daria">
-        <createTable tableName="paintings">
+    <changeSet id="4" author="daria">
+        <createTable tableName="paintings" schemaName="public">
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -65,6 +36,19 @@
             <column name="creation_year" type="integer"/>
             <column name="artist_id" type="uuid"/>
         </createTable>
+    </changeSet>
+
+    <changeSet id="5" author="daria">
+        <addPrimaryKey columnNames="id" constraintName="paintings_pkey" tableName="paintings"/>
+    </changeSet>
+
+    <changeSet id="6" author="daria">
+        <modifySql dbms="postgresql">
+            <append value="ALTER TABLE paintings OWNER TO daria;"/>
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="7" author="daria">
         <addForeignKeyConstraint baseTableName="paintings"
                                  baseColumnNames="artist_id"
                                  constraintName="fk_painting_artist_id"
@@ -73,41 +57,103 @@
                                  onDelete="CASCADE"/>
     </changeSet>
 
-    <changeSet id="5" author="Daria">
-        <createTable tableName="paintings_on_boards">
+    <changeSet id="8" author="daria">
+        <createTable tableName="boards">
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="board_id" type="uuid"/>
-            <column name="painting_id" type="uuid"/>
+            <column name="name" type="varchar(255)"/>
+            <column name="description" type="text"/>
+            <column name="user_id" type="uuid"/>
         </createTable>
-        <addForeignKeyConstraint baseTableName="paintings_on_boards"
-                                 baseColumnNames="board_id"
-                                 constraintName="fk_paintings_on_boards_board_id"
-                                 referencedTableName="boards"
+    </changeSet>
+
+    <changeSet id="9" author="daria">
+        <addPrimaryKey columnNames="id" constraintName="boards_pkey" tableName="boards"/>
+    </changeSet>
+
+    <changeSet id="10" author="daria">
+        <modifySql dbms="postgresql">
+            <append value="ALTER TABLE boards OWNER TO daria;"/>
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="11" author="daria">
+        <addForeignKeyConstraint baseTableName="boards"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_board_user_id"
+                                 referencedTableName="users"
                                  referencedColumnNames="id"
                                  onDelete="CASCADE"/>
-        <addForeignKeyConstraint baseTableName="paintings_on_boards"
+    </changeSet>
+
+    <changeSet id="12" author="daria">
+        <createTable tableName="favorites">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="uuid"/>
+            <column name="painting_id" type="uuid"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="13" author="daria">
+        <addPrimaryKey columnNames="id" constraintName="favorites_pkey" tableName="favorites"/>
+    </changeSet>
+
+    <changeSet id="14" author="daria">
+        <modifySql dbms="postgresql">
+            <append value="ALTER TABLE favorites OWNER TO daria;"/>
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="15" author="daria">
+        <addForeignKeyConstraint baseTableName="favorites"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_favorite_user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="16" author="daria">
+        <addForeignKeyConstraint baseTableName="favorites"
                                  baseColumnNames="painting_id"
-                                 constraintName="fk_paintings_on_boards_painting_id"
+                                 constraintName="fk_favorite_painting_id"
                                  referencedTableName="paintings"
                                  referencedColumnNames="id"
                                  onDelete="CASCADE"/>
     </changeSet>
 
-    <changeSet id="6" author="Daria">
+    <changeSet id="17" author="daria">
         <createTable tableName="users">
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="username" type="varchar(50)"/>
             <column name="password" type="varchar(255)"/>
-            <column name="email" type="varchar(100)">
-                <constraints unique="true"/>
-            </column>
+            <column name="email" type="varchar(100)"/>
             <column name="full_name" type="varchar(100)"/>
             <column name="role" type="varchar(20)"/>
         </createTable>
+    </changeSet>
+
+    <changeSet id="18" author="daria">
+        <addPrimaryKey columnNames="id" constraintName="users_pkey" tableName="users"/>
+    </changeSet>
+
+    <changeSet id="19" author="daria">
+        <modifySql dbms="postgresql">
+            <append value="ALTER TABLE users OWNER TO daria;"/>
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="20" author="daria">
+        <addUniqueConstraint columnNames="email" constraintName="users_email_key" tableName="users"/>
+    </changeSet>
+
+    <changeSet id="21" author="daria">
+        <addUniqueConstraint columnNames="username" constraintName="users_username_key" tableName="users"/>
     </changeSet>
 
 </databaseChangeLog>
