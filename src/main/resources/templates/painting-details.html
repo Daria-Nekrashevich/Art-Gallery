@@ -39,16 +39,14 @@
     </div>
     <div class="row">
         <div class="col-md-6">
-            <!-- Используем Thymeleaf для вывода изображения -->
             <img th:src="${painting.imageUrl}" class="img-fluid" alt="Изображение картины">
         </div>
         <div class="col-md-6">
-            <!-- Используем Thymeleaf для вывода названия, автора, года создания и описания -->
             <h2 th:text="${painting.name}">Название картины</h2>
             <h4 th:text="${painting.artist.name}">Автор</h4>
             <p>Год создания: <span th:text="${painting.creationYear}"></span></p>
             <p th:text="${painting.description}">Описание картины...</p>
-            <!-- Добавьте здесь дополнительную информацию о картинах, если это необходимо -->
+
         </div>
     </div>
 </div>
@@ -59,7 +57,6 @@
             <h3>Другие работы этого автора:</h3>
             <div class="overflow-hidden">
                 <div class="d-flex flex-row" style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
-                    <!-- Используйте Thymeleaf для итерации по списку других работ -->
                     <div th:each="otherPainting : ${otherPaintings}" class="pr-3">
                         <div class="card" style="width: 18rem;">
                             <img th:src="${otherPainting.imageUrl}" class="card-img-top" alt="...">
