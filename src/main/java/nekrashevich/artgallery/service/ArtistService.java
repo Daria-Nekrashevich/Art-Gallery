@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ArtistService {
@@ -37,5 +38,11 @@ public class ArtistService {
 
     public List<Painting> getPaintingsByArtistId(UUID artistId) {
         return paintingRepository.findByArtistId(artistId);
+    }
+
+    public List<Artist> searchArtists(String searchTerm) {
+        return artistRepository.findAll().stream()
+                .filter(artist -> artist.getName().toLowerCase().contains(searchTerm.toLowerCase()))
+                .collect(Collectors.toList());
     }
 }

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Результаты поиска художников</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+        crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Art Gallery</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/artgallery-home">Работы</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/artists">Художники</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0" action="/search-artists" method="get">
+      <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search" name="query">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
+    </form>
+    <button class="btn btn-outline-info ml-2 my-2 my-sm-0" type="button">Личный кабинет</button>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-12">
+      <hr>
+    </div>
+  </div>
+  <!-- Здесь будут карточки найденных художников -->
+  <div class="d-flex flex-column">
+    <div th:if="${message}" class="alert alert-warning" role="alert">
+      <p th:text="${message}"></p>
+    </div>
+    <div th:each="artist : ${artists}" class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title" th:text="${artist.name}"></h5>
+        <p class="card-text" th:text="${#strings.substring(artist.biography, 0, 100)} + '...'"></p>
+        <a th:href="@{'/artist-details?id=' + ${artist.id}}"
+           class="btn btn-primary">Подробнее</a>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
+        integrity="sha384-JdvpzxqBafJw0hcvyzzc+ZtS2fxXq3g1vQ+mb2do2lSffZPFA6ksu1oZ+U2t4U+d"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shCkFEU5K59FtoKFRK0kwwj/Z9C3gqRG2uaT6"
+        crossorigin="anonymous"></script>
+</body>
+</html>
