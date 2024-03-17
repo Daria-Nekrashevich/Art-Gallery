@@ -34,3 +34,4 @@ public class Painting {
     private Artist artist;
 
 }
+
