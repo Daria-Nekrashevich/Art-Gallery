@@ -34,14 +34,12 @@
 
 <div class="container mt-4">
     <div class="row">
-        <!-- Используем Thymeleaf для итерации по списку paintings -->
         <div class="col-md-4 mb-4" th:each="painting : ${paintings}">
             <div class="card">
                 <img th:src="${painting.imageUrl}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${painting.name}"></h5>
                     <p class="card-text" th:text="${painting.artist.name}"></p>
-                    <!-- Добавляем обработчик события для кнопки "Подробнее" -->
                     <a th:href="@{'/painting-details?id=' + ${painting.id}}" class="btn btn-primary">Подробнее</a>
                 </div>
             </div>
