@@ -5,15 +5,6 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
-    <changeSet id="1" author="daria">
-        <createTable tableName="artists">
-            <column name="id" type="uuid">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="name" type="varchar(255)"/>
-            <column name="biography" type="text"/>
-        </createTable>
-    </changeSet>
 
     <changeSet id="2" author="daria">
         <addPrimaryKey columnNames="id" constraintName="artists_pkey" tableName="artists"/>
@@ -25,18 +16,6 @@
         </modifySql>
     </changeSet>
 
-    <changeSet id="4" author="daria">
-        <createTable tableName="paintings" schemaName="public">
-            <column name="id" type="uuid">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="name" type="varchar(255)"/>
-            <column name="description" type="text"/>
-            <column name="image_url" type="text"/>
-            <column name="creation_year" type="integer"/>
-            <column name="artist_id" type="uuid"/>
-        </createTable>
-    </changeSet>
 
     <changeSet id="5" author="daria">
         <addPrimaryKey columnNames="id" constraintName="paintings_pkey" tableName="paintings"/>
@@ -57,16 +36,6 @@
                                  onDelete="CASCADE"/>
     </changeSet>
 
-    <changeSet id="8" author="daria">
-        <createTable tableName="boards">
-            <column name="id" type="uuid">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="name" type="varchar(255)"/>
-            <column name="description" type="text"/>
-            <column name="user_id" type="uuid"/>
-        </createTable>
-    </changeSet>
 
     <changeSet id="9" author="daria">
         <addPrimaryKey columnNames="id" constraintName="boards_pkey" tableName="boards"/>
@@ -87,15 +56,6 @@
                                  onDelete="CASCADE"/>
     </changeSet>
 
-    <changeSet id="12" author="daria">
-        <createTable tableName="favorites">
-            <column name="id" type="uuid">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="user_id" type="uuid"/>
-            <column name="painting_id" type="uuid"/>
-        </createTable>
-    </changeSet>
 
     <changeSet id="13" author="daria">
         <addPrimaryKey columnNames="id" constraintName="favorites_pkey" tableName="favorites"/>
@@ -125,18 +85,6 @@
                                  onDelete="CASCADE"/>
     </changeSet>
 
-    <changeSet id="17" author="daria">
-        <createTable tableName="users">
-            <column name="id" type="uuid">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="username" type="varchar(50)"/>
-            <column name="password" type="varchar(255)"/>
-            <column name="email" type="varchar(100)"/>
-            <column name="full_name" type="varchar(100)"/>
-            <column name="role" type="varchar(20)"/>
-        </createTable>
-    </changeSet>
 
     <changeSet id="18" author="daria">
         <addPrimaryKey columnNames="id" constraintName="users_pkey" tableName="users"/>
