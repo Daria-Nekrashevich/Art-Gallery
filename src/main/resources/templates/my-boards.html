@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои доски</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+          crossorigin="anonymous">
+</head>
+<body>
+<div class="container mt-4">
+    <h2>Мои доски</h2>
+    <!-- Цикл Thymeleaf для отображения досок пользователя -->
+    <div th:each="board : ${boards}">
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 th:text="${board.name}">Название доски</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text" th:text="${board.description}">Описание доски</p>
+                <div class="row">
+                    <div class="col-md-4" th:each="painting : ${paintingsMap[board.id]}">
+                        <div class="card mb-4 box-shadow">
+                            <img class="card-img-top" th:src="${painting.imageUrl}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${painting.name}">Название картины</h5>
+                                <p class="card-text" th:text="${painting.artist.name}"></p>
+                                <form th:action="@{/remove-painting}" method="post">
+                                    <input type="hidden" name="boardId" th:value="${board.id}">
+                                    <input type="hidden" name="paintingId" th:value="${painting.id}">
+                                    <button type="submit" class="btn btn-danger">Удалить</button>
+                                </form>
+                                <a th:href="@{'/painting-details?id=' + ${painting.id}}" class="btn btn-primary">Подробнее</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form id="createForm" action="/create-board" method="post" enctype="multipart/form-data">
+        <div class="form-group mt-4">
+            <label for="boardName">Название доски</label>
+            <input type="text" class="form-control" id="boardName" name="boardName" required>
+        </div>
+        <div class="form-group">
+            <label for="boardDescription">Описание доски</label>
+            <textarea class="form-control" id="boardDescription" name="boardDescription" rows="3"></textarea>
+        </div>
+        <input type="hidden" id="userId" name="userId" value="00000000-0000-0000-0000-000000000000"> <!-- Значение userId по умолчанию -->
+        <button type="submit" class="btn btn-primary">Создать доску</button>
+    </form>
+
+    <script>
+        document.getElementById("createForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Отменяем стандартное поведение формы (отправку данных)
+            var form = event.target; // Получаем форму
+            var formData = new FormData(form);
+            formData.append('userId', '00000000-0000-0000-0000-000000000000'); // Замените на нужный userId
+            fetch(form.action, { // Отправляем запрос на сервер
+                method: 'POST', // Используем метод POST
+                body: formData // Передаем данные формы
+            })
+                .then(response => {
+                    if (response.ok) { // Если ответ успешный
+                        alert("Доска успешно создана!"); // Показываем сообщение об успешном создании доски
+                        window.location.reload(); // Перезагружаем страницу
+                    } else {
+                        alert("Ошибка при создании доски!"); // Показываем сообщение об ошибке
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error); // Выводим ошибку в консоль
+                    alert("Произошла ошибка!"); // Показываем сообщение об ошибке
+                });
+        });
+    </script>
+
+
+    <!-- Если есть сообщение об успешном создании доски -->
+    <div th:if="${successMessage}" class="alert alert-success mt-4" role="alert">
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <!-- Если есть сообщение об ошибке при создании доски -->
+    <div th:if="${errorMessage}" class="alert alert-danger mt-4" role="alert">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
+        integrity="sha384-JdvpzxqBafJw0hcvyzzc+ZtS2fxXq3g1vQ+mb2do2lSffZPFA6ksu1oZ+U2t4U+d"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shCkFEU5K59FtoKFRK0kwwj/Z9C3gqRG2uaT6"
+        crossorigin="anonymous"></script>
+</body>
+</html>
