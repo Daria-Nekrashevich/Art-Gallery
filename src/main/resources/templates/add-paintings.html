@@ -1,9 +1,10 @@
+<!-- add-paintings.html -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Art Gallery</title>
+    <title>Add Painting</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
           crossorigin="anonymous">
@@ -31,20 +32,9 @@
         <a class="btn btn-outline-info ml-2 my-2 my-sm-0" href="/user-profile">Личный кабинет</a>
     </div>
 </nav>
-
 <div class="container mt-4">
-    <div class="row">
-        <div class="col-md-4 mb-4" th:each="painting : ${paintings}">
-            <div class="card">
-                <img th:src="${painting.imageUrl}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${painting.name}"></h5>
-                    <p class="card-text" th:text="${painting.artist.name}"></p>
-                    <a th:href="@{'/painting-details?id=' + ${painting.id}}" class="btn btn-primary">Подробнее</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <h2>Добавление картин</h2>
+    <!-- Здесь будет форма для добавления картины -->
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
